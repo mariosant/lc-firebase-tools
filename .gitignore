@@ -1,0 +1,7 @@
+tmp/
+.vercel
+.envrc
+.runtimeconfig.json
+node_modules
+*.log
+*.cache
