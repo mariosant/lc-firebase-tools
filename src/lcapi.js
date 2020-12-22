@@ -4,18 +4,25 @@ const baseURL = 'https://api.livechatinc.com/v3.2'
 
 const isNotNil = R.complement(R.isNil)
 
-const getRegion = R.ifElse(R.startsWith('fra'), R.always('fra'), R.always('dal')) 
-const getBotAgentHeader = R.ifElse(isNotNil, botAgentId => ({'X-Author-Id': botAgentId}), R.always({}))
+const getRegion = R.when(isNotNil, R.ifElse(
+	R.startsWith('fra'),
+	R.always({ 'X-Region': 'fra' }),
+	R.always({ 'X-Region': 'dal' })
+))
 
-const lcApi = ({accessToken, botAgentId}) => {
-	console.log({accessToken, botAgentId})
+const getBotAgentHeader = R.ifElse(
+	isNotNil,
+	(botAgentId) => ({ 'X-Author-Id': botAgentId }),
+	R.always({})
+)
 
+const lcApi = ({ accessToken, botAgentId }) => {
 	const client = axios.create({
 		baseURL,
 		headers: {
 			Authorization: `Bearer ${accessToken}`,
-			'X-Region': getRegion(accessToken),
-			...getBotAgentHeader(botAgentId)
+			...getRegion(accessToken),
+			...getBotAgentHeader(botAgentId),
 		},
 	})
 

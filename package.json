@@ -8,7 +8,7 @@
   "main": "src/index.js",
   "scripts": {
     "release": "release-it",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest -o"
   },
   "keywords": [],
   "author": "Marios Antonoudiou",
@@ -19,6 +19,7 @@
   "devDependencies": {
     "firebase-admin": "^9.4.1",
     "firebase-functions": "^3.12.0",
+    "jest": "^26.6.3",
     "prettier": "^2.2.1",
     "release-it": "^14.2.2"
   },
