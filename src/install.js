@@ -1,7 +1,7 @@
 const admin = require('firebase-admin')
 const functions = require('firebase-functions')
 const { path } = require('ramda')
-const day = require('dayjs')
+const dayjs = require('dayjs')
 const { getUri, getToken } = require('./livechat-auth-client')
 
 const db = admin.firestore()
@@ -19,8 +19,6 @@ const installFunctions = (options) => {
 			`https://${path(['headers', 'x-forwarded-host'], req)}${req.url}`
 		)
 
-		const tokenExpiresAt = day().add(data.expires_in, 'second').toDate()
-		
 		await accounts.doc(String(data.license_id)).delete().catch(() => {})
 
 		await accounts.doc(String(data.license_id)).set({
@@ -29,10 +27,8 @@ const installFunctions = (options) => {
 			entityId: data.entity_id,
 			licenseId: data.license_id,
 			organizationId: data.organization_id,
-			refreshToken: data.refresh_token,
-			scope: data.scope,
-			tokenType: data.token_type,
-			tokenExpiresAt,
+			token: JSON.stringify(data),
+			tokenExpiresAt: dayjs().add(data.expires_in, 'second').toDate()
 		})
 
 		res.redirect(options.thankYouUrl)
