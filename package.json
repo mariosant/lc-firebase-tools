@@ -30,6 +30,7 @@
     "form-data": "^3.0.0",
     "get-emails": "^3.0.0",
     "get-urls": "^10.0.0",
+    "p-retry": "^4.2.0",
     "ramda": "^0.27.1",
     "typesaurus": "^7.1.0"
   },
